@@ -1,4 +1,5 @@
 from flask import Flask, request
+from flask_cors import CORS
 import requests
 import json
 import os
@@ -6,6 +7,8 @@ import os
 os.environ['FLASK_DEBUG'] = '1'
 
 app = Flask(__name__)
+# 允许所有域名跨域
+CORS(app)
 
 translate_prompt = ""
 
@@ -49,11 +52,12 @@ def ask():
 @app.route('/translate', methods=['POST'])
 def translate():
     
-    # 从发送来的请求的body中获取原文，发送过来的格式为body中form-data格式的信息，form-data中有一个key为origin_text，对应value是需要翻译的原文
-    origin_text = request.form.get('origin_text')
+    # 从发送来的请求的body中获取原文，发送过来的格式为body中json格式的信息
+    data = request.get_json()
+    origin_text = data.get('origin_text')
 
     url = "https://api.deepseek.com/v1/chat/completions"
-    print(translate_prompt + origin_text)
+    # print(translate_prompt + origin_text)
     
     
     payload = json.dumps({
