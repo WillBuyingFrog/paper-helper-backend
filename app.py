@@ -53,7 +53,7 @@ def translate():
     origin_text = request.form.get('origin_text')
 
     url = "https://api.deepseek.com/v1/chat/completions"
-    # print(translate_prompt + origin_text)
+    print(translate_prompt + origin_text)
     
     
     payload = json.dumps({
